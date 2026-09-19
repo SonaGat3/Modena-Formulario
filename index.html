@@ -31,7 +31,7 @@ footer{text-align:center;font-size:12px;margin-top:18px;color:#766}
 <div class="field"><label>2. Fecha del evento *</label><input name="Fecha del evento" type="date" required></div>
 <div class="field"><label>3. Lugar del evento *</label><input name="Lugar del evento" required placeholder="Salón, quinta, domicilio, dirección y localidad"></div>
 <div class="field"><label>4. Cantidad estimada de invitados *</label><input name="Cantidad de invitados" type="number" min="1" required placeholder="Ej.: 50"></div>
-<div class="field"><label>5. Rango de edad estimado de los asistentes *</label><input name="Rango de edad" required placeholder="Ej.: 20 a 35 años"></div>
+<div class="field"><label>5. Rango de edad estimado de los asistentes *</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input name="Edad desde" type="number" inputmode="numeric" min="0" max="120" step="1" required placeholder="Desde (ej.: 20)"><input name="Edad hasta" type="number" inputmode="numeric" min="0" max="120" step="1" required placeholder="Hasta (ej.: 35)"></div></div>
 <div class="field"><label>6. Horario requerido para la barra *</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input name="Hora de inicio" type="time" required><input name="Hora de finalización" type="time" required></div><p class="note">Servicio base: 4 horas. Las horas adicionales se cotizan aparte.</p></div>
 <div class="field"><label>7. Tipo de evento *</label><select name="Tipo de evento" required><option value="">Seleccionar</option><option>Cumpleaños</option><option>Casamiento</option><option>Fiesta privada</option><option>Evento empresarial</option><option>Recibida</option><option>Otro</option></select></div>
 <div class="field"><span class="legend">8. Propuesta de bebidas *</span><div class="checks">
@@ -67,6 +67,8 @@ function buildMessage(d){
  const add=(label,val)=>{if(val)lines.push(`*${label}:* ${val}`)};
  for(const k of Object.keys(d)){
   if(k==="Hora de inicio"){add("Horario de barra",`${one("Hora de inicio")} a ${one("Hora de finalización")||"?"}`);continue}
+  if(k==="Edad desde"){add("Rango de edad",`${one("Edad desde")} a ${one("Edad hasta")} años`);continue}
+  if(k==="Edad hasta")continue;
   if(k==="Hora de finalización"){if(!d["Hora de inicio"])add("Horario de barra",`hasta ${one(k)}`);continue}
   add(k,k==="Fecha del evento"?fmtDate(one(k)):one(k));
  }
